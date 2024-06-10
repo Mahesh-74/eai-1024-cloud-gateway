@@ -9,6 +9,7 @@ spring:
           predicates:
             - Path=/order/**
           filters:
+            - AuthenticationFilter
             - name: CircuitBreaker
               args:
                 name: order-service
@@ -21,7 +22,11 @@ spring:
             - name: CircuitBreaker
               args:
                 name: payment-service
-                fallbackuri: forward:/paymentFallback                        
+                fallbackuri: forward:/paymentFallback
+        - id: identity-service
+          uri: lb://IDENTITY-SERVICE
+          predicates:
+            - Path=/auth/**                                
 
 
        
